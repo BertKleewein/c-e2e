@@ -15,8 +15,11 @@
 #include <corvusoft/restbed/string.hpp>
 #include <corvusoft/restbed/settings.hpp>
 #include <corvusoft/restbed/request.hpp>
+#include <iostream>
 
 #include "DefaultApi.h"
+
+using namespace std;
 
 namespace io {
 namespace swagger {
@@ -44,11 +47,14 @@ void DefaultApi::startService(int const& port) {
 	std::shared_ptr<restbed::Settings> settings = std::make_shared<restbed::Settings>();
 	settings->set_port(port);
 	settings->set_root("");
-	
+
+    cout << "listening on " << port << "\n";
+
 	this->start(settings);
 }
 
 void DefaultApi::stopService() {
+    cout << "stopping\n";
 	this->stop();
 }
 
@@ -71,6 +77,8 @@ void DefaultApiDeviceConnectResource::PUT_method_handler(const std::shared_ptr<r
 			
 			// Getting the query params
 			const std::string connectionString = request->get_query_parameter("connectionString", "");
+
+            cout << "device connect to " << connectionString << "\n";
 
 			
 			// Change the value of this variable to the appropriate response before sending the response
@@ -104,6 +112,8 @@ DefaultApiDeviceTwinResource::~DefaultApiDeviceTwinResource()
 void DefaultApiDeviceTwinResource::GET_method_handler(const std::shared_ptr<restbed::Session> session) {
 
 	const auto request = session->get_request();
+
+    cout << "device twin get\n";
 			
 			
 
@@ -143,6 +153,8 @@ void DefaultApiServiceConnectResource::PUT_method_handler(const std::shared_ptr<
 			
 			// Getting the query params
 			const std::string connectionString = request->get_query_parameter("connectionString", "");
+
+            cout << "service connect to " << connectionString << "\n";
 
 			
 			// Change the value of this variable to the appropriate response before sending the response
@@ -191,6 +203,9 @@ void DefaultApiServiceDeviceIdModuleIdTwinResource::PUT_method_handler(const std
 			// Getting the path params
 			const std::string deviceId = request->get_path_parameter("deviceId", "");
 			const std::string moduleId = request->get_path_parameter("moduleId", "");
+
+            cout << "service twin put for device " << deviceId << " and module " << moduleId << "\n";
+            cout << "body = " << requestBody << "\n";
 			
 
 			

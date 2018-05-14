@@ -1,5 +1,6 @@
 
 clang++ \
+    --debug \
     -I ../deps/restbed/distribution/include \
     -L ../deps/restbed/distribution/library \
     -std=gnu++11 \
