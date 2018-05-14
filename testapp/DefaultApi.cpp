@@ -23,8 +23,6 @@ namespace swagger {
 namespace server {
 namespace api {
 
-using namespace io::swagger::server::model;
-
 DefaultApi::DefaultApi() {
 	std::shared_ptr<DefaultApiDeviceConnectResource> spDefaultApiDeviceConnectResource = std::make_shared<DefaultApiDeviceConnectResource>();
 	this->publish(spDefaultApiDeviceConnectResource);

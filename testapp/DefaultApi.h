@@ -25,15 +25,12 @@
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
 
-#include "Object.h"
 #include <string>
 
 namespace io {
 namespace swagger {
 namespace server {
 namespace api {
-
-using namespace io::swagger::server::model;
 
 class  DefaultApi: public restbed::Service
 {
@@ -72,6 +69,7 @@ public:
     virtual ~DefaultApiDeviceTwinResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
+
 
 /// <summary>
 /// connect to service
