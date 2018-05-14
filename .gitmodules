@@ -1,0 +1,6 @@
+[submodule "deps/restbed"]
+	path = deps/restbed
+	url = https://github.com/Corvusoft/restbed
+[submodule "deps/azure-iot-sdk-c"]
+	path = deps/azure-iot-sdk-c
+	url = https://github.com/azure/azure-iot-sdk-c
