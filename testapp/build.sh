@@ -10,10 +10,16 @@ g++ \
     -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux/iothub_service_client \
     -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux/iothub_client \
     -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux/c-utility \
+    -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux/uamqp \
     -std=gnu++11 \
     -o example iotapp.cpp DefaultApi.cpp \
-    -l restbed -l crypto -l pthread  \
+    -l restbed \
     -l iothub_service_client \
-    -l aziotsharedutil
+    -l iothub_client_amqp_transport \
+    -l iothub_client \
+    -l uamqp \
+    -l aziotsharedutil \
+    -l curl -l uuid -l ssl -l crypto -l pthread
+
 
     # -D_GLIBCXX_DEBUG \

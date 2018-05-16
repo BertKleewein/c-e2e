@@ -20,9 +20,14 @@
 #include <iostream>
 
 extern "C" {
-#include "iothub_device_client.h"
+#include "iothub_client.h"
 #include "iothub_registrymanager.h"
-IOTHUB_SERVICE_CLIENT_AUTH_HANDLE iotHubServiceClientHandle;
+#include "iothub_devicetwin.h"
+#include "iothubtransportamqp.h"
+IOTHUB_SERVICE_CLIENT_AUTH_HANDLE iotHubServiceClientHandle = NULL;
+IOTHUB_SERVICE_CLIENT_DEVICE_TWIN_HANDLE serviceTwinHandle = NULL;
+IOTHUB_CLIENT_TRANSPORT_PROVIDER protocol = AMQP_Protocol;
+IOTHUB_CLIENT_HANDLE iotHubClientHandle = NULL;
 };
 
 using namespace std;
@@ -171,9 +176,16 @@ void DefaultApiDeviceConnectResource::PUT_method_handler(const std::shared_ptr<r
 
 
 			// Getting the query params
-			const std::string connectionString = request->get_query_parameter("onnection_string", "");
+			const std::string connectionString = request->get_query_parameter("connection_string", "");
 
             cout << "device_connect(\"" << connectionString << "\")\n";
+
+            if ((iotHubClientHandle = IoTHubClient_CreateFromConnectionString(connectionString.c_str(), protocol)) == NULL) {
+                cout << "// ERROR: iotHubClientHandle is NULL!" << endl;
+            } else {
+                cout << "// iotHubClientHandle = " << iotHubClientHandle << endl;
+            }
+
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -250,8 +262,10 @@ void DefaultApiServiceConnectResource::PUT_method_handler(const std::shared_ptr<
 
 
             iotHubServiceClientHandle = IoTHubServiceClientAuth_CreateFromConnectionString(connectionString.c_str());
+            serviceTwinHandle = IoTHubDeviceTwin_Create(iotHubServiceClientHandle);
             cout << "IOTHUB_SERVICE_CLIENT_AUTH_HANDLE iotHubServiceClientHandle = IoTHubServiceClientAuth_CreateFromConnectionString(\"" << connectionString << "\");" << endl;
-            cout << "// handle = " << iotHubServiceClientHandle << endl << endl;
+            cout << "// iotHubServiceClientHandle = " << iotHubServiceClientHandle << endl << endl;
+            cout << "// serviceTwinHandle = " << serviceTwinHandle << endl << endl;
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -291,7 +305,7 @@ void DefaultApiServiceDeviceIdModuleIdTwinResource::PUT_method_handler(const std
 		{
 
 			const auto request = session->get_request();
-			std::string requestBody = restbed::String::format("%.*s\n", ( int ) body.size( ), body.data( ));
+			std::string requestBody = restbed::String::format("%.*s", ( int ) body.size( ), body.data( ));
 			/**
 			 * Get body params or form params here from the requestBody string
 			 */
@@ -300,8 +314,10 @@ void DefaultApiServiceDeviceIdModuleIdTwinResource::PUT_method_handler(const std
 			const std::string deviceId = request->get_path_parameter("deviceId", "");
 			const std::string moduleId = request->get_path_parameter("moduleId", "");
 
-            cout << "const char* body = \"" << requestBody << "\")\n";
-            cout << "service_put(\"" << deviceId << "\",\"" << moduleId << "\", body);\n";
+            char* updatedDeviceTwinJson = IoTHubDeviceTwin_UpdateModuleTwin(serviceTwinHandle, deviceId.c_str(), moduleId.c_str(), requestBody.c_str());
+            cout << "const char* body = \"" << requestBody << "\");" << endl;
+            cout << "char* updatedDeviceTwinJson = IoTHubDeviceTwin_UpdateModuleTwin(serviceTwinHandle, \"" << deviceId << "\",\"" << moduleId << "\", body);" << endl;
+            cout << "//  updateDeviceTwinJson = \"" << updatedDeviceTwinJson << "\"" << endl;
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
