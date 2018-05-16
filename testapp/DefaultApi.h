@@ -25,6 +25,7 @@
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
 
+#include "Object.h"
 #include <string>
 
 namespace io {
@@ -41,6 +42,34 @@ public:
 	void stopService();
 };
 
+
+/// <summary>
+/// 
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+class  DefaultApiAppCommentResource: public restbed::Resource
+{
+public:
+	DefaultApiAppCommentResource();
+    virtual ~DefaultApiAppCommentResource();
+    void PUT_method_handler(const std::shared_ptr<restbed::Session> session);
+};
+
+/// <summary>
+/// 
+/// </summary>
+/// <remarks>
+/// 
+/// </remarks>
+class  DefaultApiAppExitResource: public restbed::Resource
+{
+public:
+	DefaultApiAppExitResource();
+    virtual ~DefaultApiAppExitResource();
+    void PUT_method_handler(const std::shared_ptr<restbed::Session> session);
+};
 
 /// <summary>
 /// 
@@ -69,7 +98,6 @@ public:
     virtual ~DefaultApiDeviceTwinResource();
     void GET_method_handler(const std::shared_ptr<restbed::Session> session);
 };
-
 
 /// <summary>
 /// connect to service
