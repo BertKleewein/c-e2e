@@ -19,6 +19,12 @@
 #include "DefaultApi.h"
 #include <iostream>
 
+extern "C" {
+#include "iothub_device_client.h"
+#include "iothub_registrymanager.h"
+IOTHUB_SERVICE_CLIENT_AUTH_HANDLE iotHubServiceClientHandle;
+};
+
 using namespace std;
 
 namespace io {
@@ -165,7 +171,7 @@ void DefaultApiDeviceConnectResource::PUT_method_handler(const std::shared_ptr<r
 
 
 			// Getting the query params
-			const std::string connectionString = request->get_query_parameter("connection_string", "");
+			const std::string connectionString = request->get_query_parameter("onnection_string", "");
 
             cout << "device_connect(\"" << connectionString << "\")\n";
 
@@ -242,8 +248,10 @@ void DefaultApiServiceConnectResource::PUT_method_handler(const std::shared_ptr<
 			// Getting the query params
 			const std::string connectionString = request->get_query_parameter("connection_string", "");
 
-            cout << "service_connect(\"" << connectionString << "\");\n";
 
+            iotHubServiceClientHandle = IoTHubServiceClientAuth_CreateFromConnectionString(connectionString.c_str());
+            cout << "IOTHUB_SERVICE_CLIENT_AUTH_HANDLE iotHubServiceClientHandle = IoTHubServiceClientAuth_CreateFromConnectionString(\"" << connectionString << "\");" << endl;
+            cout << "// handle = " << iotHubServiceClientHandle << endl << endl;
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
