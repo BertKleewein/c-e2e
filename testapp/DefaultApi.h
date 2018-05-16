@@ -25,7 +25,6 @@
 #include <corvusoft/restbed/resource.hpp>
 #include <corvusoft/restbed/service.hpp>
 
-#include "Object.h"
 #include <string>
 
 namespace io {

@@ -17,13 +17,15 @@
 #include <corvusoft/restbed/request.hpp>
 
 #include "DefaultApi.h"
+#include <iostream>
+
+using namespace std;
 
 namespace io {
 namespace swagger {
 namespace server {
 namespace api {
 
-using namespace io::swagger::server::model;
 
 DefaultApi::DefaultApi() {
 	std::shared_ptr<DefaultApiAppCommentResource> spDefaultApiAppCommentResource = std::make_shared<DefaultApiAppCommentResource>();
@@ -53,7 +55,7 @@ void DefaultApi::startService(int const& port) {
 	settings->set_port(port);
 	settings->set_root("");
 
-    cout << "listening on " << port << "\n";
+    cout << "// listening on " << port << "\n";
 
 	this->start(settings);
 }
@@ -88,9 +90,8 @@ void DefaultApiAppCommentResource::PUT_method_handler(const std::shared_ptr<rest
 			/**
 			 * Get body params or form params here from the requestBody string
 			 */
-			
-			
 
+            cout << "/*\n" << requestBody << "\n*/\n";
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -130,6 +131,8 @@ void DefaultApiAppExitResource::PUT_method_handler(const std::shared_ptr<restbed
 			
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
+
+            cout << "app_exit();\n";
 			
 			/**
 			 * Process the received information here
@@ -164,8 +167,7 @@ void DefaultApiDeviceConnectResource::PUT_method_handler(const std::shared_ptr<r
 			// Getting the query params
 			const std::string connectionString = request->get_query_parameter("connection_string", "");
 
-            cout << "device connect to " << connectionString << "\n";
-
+            cout << "device_connect(\"" << connectionString << "\")\n";
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
@@ -199,7 +201,7 @@ void DefaultApiDeviceTwinResource::GET_method_handler(const std::shared_ptr<rest
 
 	const auto request = session->get_request();
 
-    cout << "device twin get\n";
+    cout << "device_twin_get();\n";
 
 
 
@@ -240,7 +242,7 @@ void DefaultApiServiceConnectResource::PUT_method_handler(const std::shared_ptr<
 			// Getting the query params
 			const std::string connectionString = request->get_query_parameter("connection_string", "");
 
-            cout << "service connect to " << connectionString << "\n";
+            cout << "service_connect(\"" << connectionString << "\");\n";
 
 
 			// Change the value of this variable to the appropriate response before sending the response
@@ -290,10 +292,8 @@ void DefaultApiServiceDeviceIdModuleIdTwinResource::PUT_method_handler(const std
 			const std::string deviceId = request->get_path_parameter("deviceId", "");
 			const std::string moduleId = request->get_path_parameter("moduleId", "");
 
-            cout << "service twin put for device " << deviceId << " and module " << moduleId << "\n";
-            cout << "body = " << requestBody << "\n";
-
-
+            cout << "const char* body = \"" << requestBody << "\")\n";
+            cout << "service_put(\"" << deviceId << "\",\"" << moduleId << "\", body);\n";
 
 			// Change the value of this variable to the appropriate response before sending the response
 			int status_code = 200;
