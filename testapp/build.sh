@@ -13,7 +13,7 @@ g++ \
     -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux/uamqp \
     -L ../deps/azure-iot-sdk-c/cmake/iotsdk_linux \
     -std=gnu++11 \
-    -o example iotapp.cpp DefaultApi.cpp \
+    -o example iotapp.cpp DefaultApi.cpp glue.cpp \
     -l restbed \
     -l iothub_service_client \
     -l iothub_client_amqp_transport \
